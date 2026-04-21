@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkPreview Design System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #0A0A0A;
+            --steel: #1C1C1E;
+            --charcoal: #2C2C2E;
+            --gold: #D4AF37;
+            --silver: #C0C0C0;
+            --white: #FFFFFF;
+            --soft-grey: #A0A0A0;
+        }
+        body {
+            background-color: var(--obsidian);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        .document {
+            max-width: 800px;
+            background: var(--steel);
+            padding: 60px;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid var(--charcoal);
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .version {
+            text-align: center;
+            color: var(--soft-grey);
+            font-size: 14px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: var(--gold);
+        }
+        h3 {
+            font-size: 20px;
+            color: var(--silver);
+            margin-top: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--obsidian);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--charcoal);
+        }
+        th {
+            background: var(--charcoal);
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .color-swatch {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .spec-box {
+            background: var(--obsidian);
+            border-left: 4px solid var(--gold);
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            color: var(--soft-grey);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <h1>InkPreview</h1>
+        <div class="version">Design System Specification v1.0</div>
+        
+        <h2>1. Visual Philosophy: "Ink & Obsidian"</h2>
+        <p>The "Ink & Obsidian" philosophy positions InkPreview as a premium, luxury tool. It emphasizes high contrast, depth, and a "dark-room" studio atmosphere.</p>
+        <ul>
+            <li><strong>Art-Centric</strong>: UI recedes to let tattoo artwork be the focus.</li>
+            <li><strong>Depth & Dimension</strong>: Glassmorphism and subtle shadows create a tactile experience.</li>
+            <li><strong>Luxury Minimalism</strong>: Clean lines and high-end typography.</li>
+        </ul>
+
+        <h2>2. Color Palette</h2>
+        <h3>Foundation</h3>
+        <table>
+            <tr><th>Role</th><th>Color</th><th>Hex</th><th>Usage</th></tr>
+            <tr><td>Obsidian Black</td><td><div class="color-swatch" style="background:#0A0A0A"></div></td><td>#0A0A0A</td><td>Main Background</td></tr>
+            <tr><td>Steel Grey</td><td><div class="color-swatch" style="background:#1C1C1E"></div></td><td>#1C1C1E</td><td>Secondary Surfaces</td></tr>
+            <tr><td>Charcoal</td><td><div class="color-swatch" style="background:#2C2C2E"></div></td><td>#2C2C2E</td><td>Disabled States</td></tr>
+        </table>
+        <h3>Accents</h3>
+        <table>
+            <tr><th>Role</th><th>Color</th><th>Hex</th><th>Usage</th></tr>
+            <tr><td>Liquid Gold</td><td><div class="color-swatch" style="background:#D4AF37"></div></td><td>#D4AF37</td><td>Primary CTA</td></tr>
+            <tr><td>Silver Mist</td><td><div class="color-swatch" style="background:#C0C0C0"></div></td><td>#C0C0C0</td><td>Secondary Icons</td></tr>
+            <tr><td>Pure White</td><td><div class="color-swatch" style="background:#FFFFFF"></div></td><td>#FFFFFF</td><td>Primary Text</td></tr>
+        </table>
+
+        <h2>3. Typography</h2>
+        <p><strong>Display/Headings:</strong> Playfair Display (Serif) - Elegance and craftsmanship.</p>
+        <p><strong>UI/Body:</strong> Inter (Sans-Serif) - Modernity and precision.</p>
+        <table>
+            <tr><th>Level</th><th>Weight</th><th>Size</th><th>Line Height</th></tr>
+            <tr><td>H1</td><td>Bold</td><td>32px</td><td>40px</td></tr>
+            <tr><td>H2</td><td>Semi-Bold</td><td>24px</td><td>32px</td></tr>
+            <tr><td>Body L</td><td>Regular</td><td>16px</td><td>24px</td></tr>
+            <tr><td>Caption</td><td>Medium</td><td>12px</td><td>16px</td></tr>
+        </table>
+
+        <h2>4. Glassmorphism & Effects</h2>
+        <div class="spec-box">
+            <strong>Obsidian Glass Spec:</strong><br>
+            Fill: rgba(255, 255, 255, 0.05)<br>
+            Backdrop Blur: 20px<br>
+            Border: 1px solid rgba(255, 255, 255, 0.12)<br>
+            Inner Glow: Top-left 1px highlight rgba(255, 255, 255, 0.2)
+        </div>
+
+        <h2>5. Component Library</h2>
+        <ul>
+            <li><strong>Primary Button:</strong> Liquid Gold Gradient, Obsidian Black text, 12px radius.</li>
+            <li><strong>Artwork Card:</strong> Obsidian Glass, 24px radius, 16px padding.</li>
+            <li><strong>Navigation:</strong> Obsidian Glass bottom bar, 84px height.</li>
+        </ul>
+
+        <h2>6. Layout & Grid</h2>
+        <p>Based on an <strong>8px baseline grid</strong>.</p>
+        <ul>
+            <li>Side Margins: 24px</li>
+            <li>Component Gap: 16px</li>
+            <li>Responsive: Margins reduce to 16px on compact screens.</li>
+        </ul>
+    </div>
+</body>
+</html>

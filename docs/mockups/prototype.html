@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkPreview Visual Prototype - Ink & Obsidian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Foundation Colors */
+            --obsidian-black: #0A0A0A;
+            --steel-grey: #1C1C1E;
+            --charcoal: #2C2C2E;
+            
+            /* Accent Colors */
+            --liquid-gold: #D4AF37;
+            --liquid-gold-dark: #B8860B;
+            --silver-mist: #C0C0C0;
+            --pure-white: #FFFFFF;
+            --soft-grey: #A0A0A0;
+            
+            /* Obsidian Glass Spec */
+            --glass-fill: rgba(255, 255, 255, 0.05);
+            --glass-blur: 20px;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+            --glass-glow: 0px 0px 15px rgba(212, 175, 55, 0.3);
+            
+            /* Typography */
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--obsidian-black);
+            color: var(--pure-white);
+            font-family: var(--font-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: var(--obsidian-black);
+            border: 8px solid #1c1c1e;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .screen {
+            display: none;
+            height: 100%;
+            width: 100%;
+            padding: 24px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            padding-bottom: 100px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 40px;
+            letter-spacing: -0.5px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 32px;
+            letter-spacing: -0.2px;
+            margin-top: 0;
+        }
+
+        .glass-card {
+            background: var(--glass-fill);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .glass-card:active {
+            transform: scale(1.02);
+        }
+
+        .hero-card {
+            background: var(--glass-fill);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: var(--glass-border);
+            color: var(--pure-white);
+            padding: 32px 24px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+            box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-card h1 {
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--liquid-gold), var(--liquid-gold-dark));
+            color: var(--obsidian-black);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--glass-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--silver-mist);
+            border: 1px solid var(--silver-mist);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(192, 192, 192, 0.1);
+            color: var(--pure-white);
+        }
+
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 84px;
+            background: var(--glass-fill);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-top: var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            color: var(--silver-mist);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item.active {
+            color: var(--liquid-gold);
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .grid-item {
+            height: 150px;
+            background: var(--steel-grey);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--soft-grey);
+            font-size: 14px;
+            border: var(--glass-border);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .grid-item:active {
+            transform: scale(1.02);
+        }
+
+        .search-bar {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--charcoal);
+            padding: 12px 0;
+            color: var(--pure-white);
+            width: 100%;
+            margin-bottom: 24px;
+            box-sizing: border-box;
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-bottom: 2px solid var(--liquid-gold);
+        }
+
+        .search-bar::placeholder {
+            color: #666666;
+        }
+
+        .filter-pill {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: var(--glass-border);
+            background: var(--glass-fill);
+            color: var(--soft-grey);
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-pill.active {
+            background: linear-gradient(135deg, var(--liquid-gold), var(--liquid-gold-dark));
+            border-color: transparent;
+            color: var(--obsidian-black);
+            font-weight: 600;
+        }
+
+        .canvas-area {
+            width: 100%;
+            height: 400px;
+            background: var(--steel-grey);
+            border-radius: 24px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--soft-grey);
+            margin-bottom: 24px;
+            border: var(--glass-border);
+        }
+
+        .tattoo-overlay {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed var(--liquid-gold);
+            position: absolute;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+            color: var(--pure-white);
+            border-radius: 12px;
+        }
+
+        .tool-panel {
+            background: var(--glass-fill);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 16px;
+        }
+
+        .slider-container {
+            margin-bottom: 16px;
+        }
+
+        .slider-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--soft-grey);
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--liquid-gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Home Screen -->
+        <div id="home" class="screen active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--steel-grey); border: var(--glass-border);"></div>
+                <h2 style="margin: 0;">InkPreview</h2>
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--steel-grey); border: var(--glass-border);"></div>
+            </div>
+            
+            <div class="hero-card">
+                <h1>Visualize Your Next Ink</h1>
+                <button class="btn-primary">Start New Project</button>
+            </div>
+
+            <h2>Recent Projects</h2>
+            <div class="grid">
+                <div class="glass-card grid-item">Project 1</div>
+                <div class="glass-card grid-item">Project 2</div>
+                <div class="glass-card grid-item">Project 3</div>
+                <div class="glass-card grid-item">Project 4</div>
+            </div>
+        </div>
+
+        <!-- Gallery Screen -->
+        <div id="gallery" class="screen">
+            <h2>Gallery</h2>
+            <input type="text" class="search-bar" placeholder="Find inspiration...">
+            <div style="margin-bottom: 24px; overflow-x: auto; white-space: nowrap; padding-bottom: 5px;">
+                <div class="filter-pill active">All</div>
+                <div class="filter-pill">Realism</div>
+                <div class="filter-pill">Hannya</div>
+                <div class="filter-pill">Minimalist</div>
+                <div class="filter-pill">Neo-Tribal</div>
+            </div>
+            <div class="grid">
+                <div class="grid-item">Image 1</div>
+                <div class="grid-item">Image 2</div>
+                <div class="grid-item">Image 3</div>
+                <div class="grid-item">Image 4</div>
+                <div class="grid-item">Image 5</div>
+                <div class="grid-item">Image 6</div>
+            </div>
+        </div>
+
+        <!-- Editor Screen -->
+        <div id="editor" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div style="cursor: pointer; color: var(--silver-mist); font-weight: 500;" onclick="showScreen('home')">&larr; Back</div>
+                <h2 style="margin: 0;">Editor</h2>
+                <button class="btn-primary" style="padding: 8px 16px; font-size: 12px;">Save</button>
+            </div>
+            <div class="canvas-area">
+                <span>Skin Surface Preview</span>
+                <div class="tattoo-overlay">Tattoo Overlay</div>
+            </div>
+            <div class="tool-panel">
+                <div class="slider-container">
+                    <label class="slider-label">Opacity</label>
+                    <input type="range" min="0" max="100" value="80">
+                </div>
+                <div class="slider-container">
+                    <label class="slider-label">Rotation</label>
+                    <input type="range" min="0" max="360" value="45">
+                </div>
+                <div style="display: flex; justify-content: space-around; margin-top: 24px;">
+                    <button class="btn-secondary" style="font-size: 11px; padding: 6px 12px;">Multiply</button>
+                    <button class="btn-secondary" style="font-size: 11px; padding: 6px 12px;">Overlay</button>
+                    <button class="btn-secondary" style="font-size: 11px; padding: 6px 12px;">Screen</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-item active" id="nav-home" onclick="showScreen('home')">Home</div>
+            <div class="nav-item" id="nav-gallery" onclick="showScreen('gallery')">Gallery</div>
+            <div class="nav-item" id="nav-editor" onclick="showScreen('editor')">Editor</div>
+            <div class="nav-item" id="nav-profile">Profile</div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById(screenId).classList.add('active');
+            const navItem = document.getElementById('nav-' + screenId);
+            if (navItem) navItem.classList.add('active');
+        }
+    </script>
+</body>
+</html>
